@@ -14,6 +14,12 @@
 using std::string;
 using std::to_string;
 
+template <typename T>
+void clearColumn(T window, int row, std::map<std::string, int>& columns, const std::string& column_name) {
+    std::string clear_string(columns[column_name], ' ');
+    mvwprintw(window, row, columns[column_name], "%s", clear_string.c_str());
+}
+
 // 50 bars uniformly displayed from 0 - 100 %
 // 2% is one bar(|)
 std::string NCursesDisplay::ProgressBar(float percent) {
@@ -79,21 +85,12 @@ void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
   for (int i = 1; i < num_processes + 1; ++i) {
 
     mvwprintw(window, ++row, columns["pid_column"], "%d", processes[i].Pid());
-
-    std::string clear_string(columns["user_column"], ' ');
-    mvwprintw(window, row, columns["user_column"], "%s", clear_string.c_str());
-
+    clearColumn(window, row, columns, "user_column");
     mvwprintw(window, row, columns["user_column"], "%s", processes[i].User().c_str());
-
-    clear_string = std::string(columns["cpu_column"] - columns["user_column"], ' ');
-    mvwprintw(window, row, columns["cpu_column"], "%s", clear_string.c_str());
-
+    clearColumn(window, row, columns, "cpu_column");
     float cpu = processes[i].CpuUtilization() * 100;
     mvwprintw(window, row, columns["cpu_column"], "%.2f", cpu);
-
-    clear_string = std::string(columns["ram_column"] - columns["cpu_column"], ' ');
-    mvwprintw(window, row, columns["ram_column"], "%s", clear_string.c_str());
-
+    clearColumn(window, row, columns, "ram_column");
     mvwprintw(window, row, columns["ram_column"], "%s", processes[i].Ram().c_str());
     mvwprintw(window, row, columns["time_column"],
               "%s", Format::ElapsedTime(processes[i].UpTime()).c_str());

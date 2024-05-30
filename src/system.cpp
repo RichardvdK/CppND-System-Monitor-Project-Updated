@@ -27,13 +27,13 @@ vector<Process>& System::Processes() {
 
     LinuxParser::DebugOutput("pids", pids[0]);
 
-    set<int> existing_pids;
+    std::vector<int> existing_pids;
     for (Process& process : processes_) {
-        existing_pids.insert(process.Pid());
+        existing_pids.emplace_back(process.Pid());
     }
 
     for (int pid : pids) {
-        if (existing_pids.find(pid) == existing_pids.end()) {
+        if (std::find(existing_pids.begin(), existing_pids.end(), pid) == existing_pids.end()) {
             processes_.emplace_back(pid);
         }
     }
@@ -42,6 +42,8 @@ vector<Process>& System::Processes() {
         process.CpuUtilization(LinuxParser::ActiveJiffies(process.Pid()),
                                LinuxParser::Jiffies());
     }
+
+    // Sort processes by CPU utilization using the overloaded operator< in process.cpp
     std::sort(processes_.rbegin(), processes_.rend());
 
     return processes_;
