@@ -16,16 +16,6 @@ using std::to_string;
 using std::vector;
 
 
-// // Template for outputting variables to a debug.txt file because the terminal is used to display the system monitor
-// template <typename T>
-// void LinuxParser::DebugOutput(const std::string& variableName, const T& variable) {
-//   std::ofstream debugFile("debug.txt", std::ios::app);
-//   if (debugFile.is_open()) {
-//     debugFile << variableName << ": " << variable << std::endl;
-//     debugFile.close();
-//   }
-// }
-
 /////////////////// Functions for system.cpp //////////////////////
 
 vector<int> LinuxParser::Pids() {
@@ -293,7 +283,6 @@ long LinuxParser::UpTime(int pid) {
   }
   return 0; // Add a default return value in case the conditions are not met
 }
-
 
 
 /////// Functions for processor.cpp and helper functions ///////////

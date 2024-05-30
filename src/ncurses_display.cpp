@@ -69,7 +69,7 @@ void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
     {"cpu_column", 19},
     {"ram_column", 26},
     {"time_column", 35},
-    {"command_column", 45}
+    {"command_column", 46}
   };
 
   wattron(window, COLOR_PAIR(2));
@@ -92,8 +92,10 @@ void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
     mvwprintw(window, row, columns["cpu_column"], "%.2f", cpu);
     clearColumn(window, row, columns, "ram_column");
     mvwprintw(window, row, columns["ram_column"], "%s", processes[i].Ram().c_str());
+    clearColumn(window, row, columns, "time_column");
     mvwprintw(window, row, columns["time_column"],
               "%s", Format::ElapsedTime(processes[i].UpTime()).c_str());
+    clearColumn(window, row, columns, "command_column");
     mvwprintw(window, row, columns["command_column"],
               "%s", processes[i].Command().substr(0, window->_maxx - 46).c_str());
   }

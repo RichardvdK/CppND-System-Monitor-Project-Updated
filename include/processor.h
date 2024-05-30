@@ -3,7 +3,11 @@
 
 class Processor {
  public:
-    float Utilization();
+   float Utilization();
+   long PreviousActiveJiffies() const;
+   long PreviousIdleJiffies() const;
+   long PreviousActiveJiffies(long active_jiffies);
+   long PreviousIdleJiffies(long idle_jiffies);
 
  private:
     long previous_active_jiffies_{0};
