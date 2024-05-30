@@ -77,6 +77,7 @@ float LinuxParser::MemoryUtilization() {
   if (total_mem != 0.0f && free_mem != 0.0f) {
     return (total_mem - free_mem) / total_mem;
   }
+  return 0.0f; // Add a default return value in case the conditions are not met
 }
 
 // DONE: An example of how to read data from the filesystem
@@ -120,6 +121,8 @@ int LinuxParser::RunningProcesses() {
   if (running_processes != 0) {
     return running_processes;
   }
+
+  return 0; // Add a default return value in case the conditions are not met
 }
 
 // DONE: Read and return the total number of processes
@@ -141,6 +144,7 @@ int LinuxParser::TotalProcesses() {
   if (total_processes != 0) {
     return total_processes;
   }
+  return 0; // Add a default return value in case the conditions are not met
 }
 
 // DONE: Read and return the system uptime
@@ -158,6 +162,8 @@ long LinuxParser::UpTime() {
   if (up_time != 0) {
     return up_time;
   }
+
+  return 0; // Add a default return value in case the conditions are not met
 }
 
 /////////////////// Functions for process.cpp //////////////////////
@@ -198,6 +204,7 @@ string LinuxParser::Uid(int pid) {
   if (uid != "") {
     return uid;
   }
+  return ""; // Add a default return value in case the conditions are not met
 }
 
 // DONE: Read and return the command associated with a process
@@ -212,6 +219,8 @@ string LinuxParser::Command(int pid) {
   if (command != "") {
     return command;
   }
+
+  return ""; // Add a default return value in case the conditions are not met
 }
 
 // DONE: Read and return the memory used by a process
@@ -233,7 +242,9 @@ string LinuxParser::Ram(int pid) {
     // Convert from KB to MB
     ram = std::to_string(std::stoi(ram) / 1024);
     return ram;
-  }
+  } else {
+    return "NaN";
+}
 }
 
 // DONE: Read and return the user associated with a process
@@ -255,6 +266,8 @@ string LinuxParser::User(int pid) {
 
   if (user != "") {
     return user;
+  } else {
+    return "Unknown";
   }
 }
 
@@ -278,7 +291,7 @@ long LinuxParser::UpTime(int pid) {
     up_time_in_sec = up_time_in_clock_ticks / sysconf(_SC_CLK_TCK);
     return up_time_in_sec;
   }
-
+  return 0; // Add a default return value in case the conditions are not met
 }
 
 
@@ -306,6 +319,7 @@ long LinuxParser::ActiveJiffies(int pid) {
   if (active_jiffies != 0) {
     return active_jiffies;
   }
+  return 0; // Add a default return value in case the conditions are not met
 }
 
 // DONE: Read and return the number of active jiffies for the system
@@ -323,6 +337,7 @@ long LinuxParser::ActiveJiffies() {
   if (active_jiffies != 0) {
     return active_jiffies;
   }
+  return 0; // Add a default return value in case the conditions are not met
 }
 
 // DONE: Read and return the number of idle jiffies for the system
@@ -335,6 +350,7 @@ long LinuxParser::IdleJiffies() {
   if (idle_jiffies != 0) {
     return idle_jiffies;
   }
+  return 0; // Add a default return value in case the conditions are not met
 }
 
 
