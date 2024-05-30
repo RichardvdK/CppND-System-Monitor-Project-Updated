@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-// TODO: Return the aggregate CPU utilization
+// DONE: Return the aggregate CPU utilization
 float Processor::Utilization() {
     float cpu_utilization = 0.0;
     long active_jiffies = LinuxParser::ActiveJiffies();

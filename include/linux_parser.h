@@ -40,6 +40,8 @@ int RunningProcesses();
 string OperatingSystem();
 string Kernel();
 
+// Utils
+
 // Template for outputting variables to a debug.txt file because the terminal is used to display the system monitor
 template <typename T>
 void DebugOutput(const std::string& variableName, const T& variable) {

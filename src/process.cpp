@@ -23,7 +23,7 @@ Process::Process(int pid){
 // DONE: Return this process's ID
 int Process::Pid() const { return pid_; }
 
-// TODO: Return this process's CPU utilization
+// DONE: Return this process's CPU utilization
 float Process::CpuUtilization() { return process_cpu_utilization_; }
 
 void Process::CpuUtilization(long process_jiffies, long total_jiffies) {
@@ -38,20 +38,19 @@ void Process::CpuUtilization(long process_jiffies, long total_jiffies) {
   previous_total_jiffies_ = total_jiffies;
 }
 
-// TODO: Return the command that generated this process
+// DONE: Return the command that generated this process
 string Process::Command() { return command_; }
 
-// TODO: Return this process's memory utilization
+// DONE: Return this process's memory utilization
 string Process::Ram() { return ram_; }
 
-// TODO: Return the user (name) that generated this process
+// DONE: Return the user (name) that generated this process
 string Process::User() { return user_; }
 
-// TODO: Return the age of this process (in seconds)
+// DONE: Return the age of this process (in seconds)
 long int Process::UpTime() { return up_time_; }
 
-// TODO: Overload the "less than" comparison operator for Process objects
-// REMOVE: [[maybe_unused]] once you define the function
-bool Process::operator<(Process const& a [[maybe_unused]]) const {
+// DONE: Overload the "less than" comparison operator for Process objects
+bool Process::operator<(Process const& a) const {
   return process_cpu_utilization_ < a.process_cpu_utilization_;
 }
