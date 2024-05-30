@@ -26,7 +26,7 @@ vector<Process>& System::Processes() {
     vector<int> pids = LinuxParser::Pids();
 
     // Example of how to use DebugOutput to output variables to a debug.txt file
-    LinuxParser::DebugOutput("pids", pids[0]);
+    // LinuxParser::DebugOutput("pids", pids[0]);
 
     std::vector<int> existing_pids;
     for (Process& process : processes_) {
