@@ -24,12 +24,10 @@ float Processor::Utilization() {
 }
 
 long Processor::PreviousActiveJiffies() const {
-    LinuxParser::DebugOutput("previous_active_jiffies_", previous_active_jiffies_);
     return previous_active_jiffies_;
 }
 
 long Processor::PreviousIdleJiffies() const {
-    LinuxParser::DebugOutput("previous_idle_jiffies_", previous_idle_jiffies_);
     return previous_idle_jiffies_;
 }
 
