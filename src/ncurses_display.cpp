@@ -1,11 +1,12 @@
 #include "ncurses_display.h"
-
+#include "linux_parser.h"
 #include <curses.h>
 
 #include <chrono>
 #include <string>
 #include <thread>
 #include <vector>
+#include <map>
 
 #include "format.h"
 #include "system.h"
@@ -57,30 +58,43 @@ void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
 void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
                                       WINDOW* window, int n) {
   int row{0};
-  int const pid_column{2};
-  int const user_column{9};
-  int const cpu_column{16};
-  int const ram_column{26};
-  int const time_column{35};
-  int const command_column{46};
+  std::map<std::string, int> columns = {
+    {"pid_column", 2},
+    {"user_column", 10},
+    {"cpu_column", 19},
+    {"ram_column", 26},
+    {"time_column", 35},
+    {"command_column", 45}
+  };
+
   wattron(window, COLOR_PAIR(2));
-  mvwprintw(window, ++row, pid_column, "PID");
-  mvwprintw(window, row, user_column, "USER");
-  mvwprintw(window, row, cpu_column, "CPU[%%]");
-  mvwprintw(window, row, ram_column, "RAM[MB]");
-  mvwprintw(window, row, time_column, "TIME+");
-  mvwprintw(window, row, command_column, "COMMAND");
+  mvwprintw(window, ++row, columns["pid_column"], "PID");
+  mvwprintw(window, row, columns["user_column"], "USER");
+  mvwprintw(window, row, columns["cpu_column"], "CPU[%%]");
+  mvwprintw(window, row, columns["ram_column"], "RAM[MB]");
+  mvwprintw(window, row, columns["time_column"], "TIME+");
+  mvwprintw(window, row, columns["command_column"], "COMMAND");
+
   wattroff(window, COLOR_PAIR(2));
   int const num_processes = int(processes.size()) > n ? n : processes.size();
-  for (int i = 0; i < num_processes; ++i) {
-    mvwprintw(window, ++row, pid_column, to_string(processes[i].Pid()).c_str());
-    mvwprintw(window, row, user_column, processes[i].User().c_str());
+  for (int i = 1; i < num_processes + 1; ++i) {
+
+    mvwprintw(window, ++row, columns["pid_column"], to_string(processes[i].Pid()).c_str());
+
+    std::string clear_string(columns["user_column"], ' ');
+    mvwprintw(window, row, columns["user_column"], clear_string.c_str());
+
+    mvwprintw(window, row, columns["user_column"], processes[i].User().c_str());
+
+    clear_string = std::string(columns["cpu_column"] - columns["user_column"], ' ');
+    mvwprintw(window, row, columns["cpu_column"], clear_string.c_str());
+
     float cpu = processes[i].CpuUtilization() * 100;
-    mvwprintw(window, row, cpu_column, to_string(cpu).substr(0, 4).c_str());
-    mvwprintw(window, row, ram_column, processes[i].Ram().c_str());
-    mvwprintw(window, row, time_column,
+    mvwprintw(window, row, columns["cpu_column"], to_string(cpu).substr(0, 4).c_str());
+    mvwprintw(window, row, columns["ram_column"], processes[i].Ram().c_str());
+    mvwprintw(window, row, columns["time_column"],
               Format::ElapsedTime(processes[i].UpTime()).c_str());
-    mvwprintw(window, row, command_column,
+    mvwprintw(window, row, columns["command_column"],
               processes[i].Command().substr(0, window->_maxx - 46).c_str());
   }
 }

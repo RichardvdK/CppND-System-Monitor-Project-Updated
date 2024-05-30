@@ -28,16 +28,8 @@ const string kTokenMemTotal{"MemTotal:"};
 const string kTokenMemFree{"MemFree:"};
 const string kTokenOperatingSystem{"PRETTY_NAME"};
 const string kTokenUid{"Uid:"};
-
-// Not used yet
-const string kTokenCpu{"cpu"};
-const string kTokenUser{"User:"};
-const string kTokenProcMem{"VmData:"};
-const string kTokenStartTime{"btime"};
-const string kTokenUpTime{"Uptime:"};
-
-
-
+const string kTokenProcMem{"VmRSS:"};
+const int kTokenUpTimeIndex{21};
 
 // System
 float MemoryUtilization();
@@ -47,6 +39,16 @@ int TotalProcesses();
 int RunningProcesses();
 string OperatingSystem();
 string Kernel();
+
+// Template for outputting variables to a debug.txt file because the terminal is used to display the system monitor
+template <typename T>
+void DebugOutput(const std::string& variableName, const T& variable) {
+  std::ofstream debugFile("debug.txt", std::ios::app);
+  if (debugFile.is_open()) {
+    debugFile << variableName << ": " << variable << std::endl;
+    debugFile.close();
+  }
+}
 
 // CPU
 enum CPUStates {
